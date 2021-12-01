@@ -9,14 +9,15 @@ class User extends React.Component {
         
         super()
         this.state = {
+            username: 'ordainedrat',
             user: [],
-            followers: []
+            followers: [],
         }
 
     }
   
 componentDidMount() {
-    axios.get('https://api.github.com/users/ordainedrat')
+    axios.get(`https://api.github.com/users/ordainedrat`)
         .then(res => {
            this.setState({
             ...this.state,
@@ -26,7 +27,7 @@ componentDidMount() {
         .catch(err => {
             console.log(err)
         })
-        axios.get('https://api.github.com/users/ordainedrat/followers')
+        axios.get(`https://api.github.com/users/ordainedrat/followers`)
         .then(res => {
             this.setState({
                 ...this.state,
@@ -38,7 +39,38 @@ componentDidMount() {
         })
         
 }
+    handleChange = (e) => {
+        this.setState({
+            ...this.state,
+            username: e.target.value
+        })
+    }
+    
+    clicker = (e) => {
+        e.preventDefault()
 
+        axios.get(`https://api.github.com/users/${this.state.username}`)
+            .then(res => {
+                this.setState({
+                    ...this.state,
+                    user: res.data,
+                    username: res.data.login
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            axios.get(`https://api.github.com/users/${this.state.username}/followers`)
+            .then(res => {
+                this.setState({
+                    ...this.state,
+                    followers: res.data
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
 
    
@@ -46,8 +78,12 @@ componentDidMount() {
        console.log('followers', this.state.followers)
         return(
             <div>
+                <form> 
+                    <input onChange={this.handleChange}/>
+                    <button onClick={this.clicker} >Search</button>  
+                </form>
                 <div>
-                    <img src={this.state.user.avatar_url} />
+                    <img width='300' src={this.state.user.avatar_url} />
                 </div>
                 <div>
                    <h2>{this.state.user.login} - {this.state.user.name}</h2> 

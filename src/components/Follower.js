@@ -2,8 +2,12 @@ import React from "react";
 
 const Follower = (props) => {
 
+    
     return(
-        <h4>Howdy Follower</h4>
+        <div>
+            <img src={props.follower.avatar_url} />
+            <h4>{props.follower.login}</h4>
+        </div>
     )
 }
 

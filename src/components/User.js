@@ -10,6 +10,7 @@ class User extends React.Component {
         super()
         this.state = {
             user: [],
+            followers: []
         }
 
     }
@@ -25,6 +26,16 @@ componentDidMount() {
         .catch(err => {
             console.log(err)
         })
+        axios.get('https://api.github.com/users/ordainedrat/followers')
+        .then(res => {
+            this.setState({
+                ...this.state,
+                followers: res.data
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
         
 }
 
@@ -32,6 +43,7 @@ componentDidMount() {
 
    
    render() {
+       console.log('followers', this.state.followers)
         return(
             <div>
                 <div>
@@ -43,7 +55,7 @@ componentDidMount() {
                    <h3>TOTAL FOLLOWERS: {this.state.user.followers}</h3>
                    <h3>TOTAL REPOS: {this.state.user.public_repos}</h3>
                 </div>
-                <FollowerList/>
+                <FollowerList followers={this.state.followers} />
             </div>
         )
     }

@@ -2,34 +2,16 @@ import axios from "axios";
 import React from "react";
 import Follower from "./Follower";
 
-class FollowerList extends React.Component {
+const FollowerList = (props) => {
 
-    constructor() {
-        super()
-        this.state = {
-            followers: []
-        }
-    }
-
-    componentDidMount() {
-        axios.get('https://api.github.com/users/ordainedrat/followers')
-            .then(res => {
-                console.log('here is my res', res.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-
-    render() {
-        return(
-            <div>
-                <h3>Follower List Working</h3>
-                <Follower/>
-
-            </div>
-        )
-    }
+    return(
+        <div>
+            <h1> workssss</h1>
+            {props.followers.map(follow => (
+                <Follower follower={follow} key={follow.id} />
+    ))}
+        </div>
+    )
 }
 
 export default FollowerList
